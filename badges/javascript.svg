@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="150" height="28" viewBox="0 0 150 28" role="img" aria-label="JavaScript: none">
+  <title>JavaScript: none</title>
+  <linearGradient id="s" x2="0" y2="100%"><stop offset="0" stop-color="#fff" stop-opacity=".08"/><stop offset="1" stop-opacity=".12"/></linearGradient>
+  <clipPath id="r"><rect width="150" height="28" rx="6" fill="#fff"/></clipPath>
+  <g clip-path="url(#r)">
+    <rect width="97" height="28" fill="#14342a"/>
+    <rect x="97" width="53" height="28" fill="#14342a"/>
+    <rect width="150" height="28" fill="url(#s)"/>
+  </g>
+  <g fill="#f3efe2" font-family="Verdana,DejaVu Sans,Geneva,sans-serif" font-size="12.5" text-anchor="middle">
+    <text x="48" y="18" font-weight="600">JavaScript</text>
+    <text x="124" y="18" font-weight="700">none</text>
+  </g>
+</svg>
