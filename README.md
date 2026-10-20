@@ -1,13 +1,12 @@
 # The Unstoppable Mind — Companion App
 
-[![Live app](https://img.shields.io/badge/Live%20app-open-23513d
-[![Licence: Free to Use](https://img.shields.io/badge/Licence-Free%20to%20Use-a87c2c
-[![JavaScript: none](https://img.shields.io/badge/JavaScript-none-14342a
-[![Works offline](https://img.shields.io/badge/Works-offline-b4562a
-[![Single file](https://img.shields.io/badge/Single%20file-30%20KB-23513d
-
-[![GitHub stars](https://img.shields.io/github/stars/drsamonline/unstoppable-mind-companion
-[![PRs welcome](https://img.shields.io/badge/PRs-welcome-a87c2c.svg)](https://github.com/drsamonline/unstoppable-mind-companion/pulls)
+[![Live app](badges/live.svg)](https://drsamonline.github.io/unstoppable-mind-companion/)
+[![Licence: Free to Use](badges/licence.svg)](LICENSE)
+[![JavaScript: none](badges/javascript.svg)](#features)
+[![Works offline](badges/offline.svg)](#features)
+[![Single file: 30 KB](badges/single-file.svg)](#files)
+[![Star on GitHub](badges/star.svg)](https://github.com/drsamonline/unstoppable-mind-companion/stargazers)
+[![PRs welcome](badges/prs.svg)](https://github.com/drsamonline/unstoppable-mind-companion/pulls)
 
 A small, offline companion to the book **The Unstoppable Mind: Mastering Habituation, Confidence, and Power** by **Dr. Sohil Momin**.
 
@@ -22,12 +21,12 @@ It is not the book. It is the book's key points and its exercises, in a form you
 
 ## Contents
 
-- [What's inside](#-whats-inside)
-- [Features](#-features)
-- [Use it](#-use-it)
-- [Files](#-files)
-- [Licence](#-licence)
-- [About the book](#-about-the-book)
+- [What's inside](#whats-inside)
+- [Features](#features)
+- [Use it](#use-it)
+- [Files](#files)
+- [Licence](#licence)
+- [About the book](#about-the-book)
 
 ---
 
@@ -67,6 +66,7 @@ It is not the book. It is the book's key points and its exercises, in a form you
 |---|---|
 | `index.html` | The whole app |
 | `preview.png` | The preview image above |
+| `badges/` | The badge images used at the top of this file |
 | `LICENSE` | The free-to-use terms |
 | `README.md` | This file |
 
