@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#1c3f31">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Unstoppable">
+<title>The Unstoppable Mind &mdash; Companion</title>
+<style>
+:root{
+  --paper:#f7f3e9; --card:#fffdf8; --ink:#1d2a23; --muted:#5f6f65;
+  --green:#23513d; --green-deep:#14342a; --brass:#a87c2c; --brass-soft:#c9a45c;
+  --line:#e4dfd0; --panel:#f1ede0;
+  --serif:Georgia,'Times New Roman',serif;
+  --sans:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:#e9e4d6;color:var(--ink);font-family:var(--sans);line-height:1.55;-webkit-font-smoothing:antialiased}
+.app{max-width:560px;margin:0 auto;min-height:100vh;background:var(--paper);display:flex;flex-direction:column;position:relative;box-shadow:0 0 40px rgba(0,0,0,.08)}
+header.top{position:sticky;top:0;z-index:20;background:linear-gradient(160deg,#2c5b45,#14342a);color:#f3efe2;padding:16px 18px 14px;display:flex;align-items:center;gap:12px}
+header.top .em{width:34px;height:34px;flex:0 0 34px;color:var(--brass-soft)}
+header.top h1{font-family:var(--serif);font-size:17px;margin:0;font-weight:600}
+header.top .sub{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#cdd8cf;margin-top:2px}
+form#app{display:contents}
+.tabin{position:absolute;left:-9999px}
+main{flex:1;padding:16px 16px 96px}
+.view{display:none}
+#tab-home:checked ~ main #v-home,
+#tab-ideas:checked ~ main #v-ideas,
+#tab-practice:checked ~ main #v-practice,
+#tab-cards:checked ~ main #v-cards{display:block}
+h2.view-title{font-family:var(--serif);font-size:22px;color:var(--green-deep);margin:2px 0 4px}
+h3.ch-title{font-family:var(--serif);font-size:19px;color:var(--green-deep);margin:4px 0 4px;font-weight:600}
+p.lede{color:var(--muted);font-size:14px;margin:0 0 16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:12px;display:block}
+.card.tap{cursor:pointer}
+.card.tap:active{transform:scale(.99)}
+.row{display:flex;align-items:center;gap:12px}
+.spread{justify-content:space-between}
+.chev{color:var(--brass);font-size:22px;line-height:1}
+.pill{display:inline-block;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--green);border:1px solid var(--brass-soft);border-radius:999px;padding:3px 11px}
+.pill.brass{color:var(--brass)}
+.ch-num{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--brass);font-weight:600}
+.idea{font-family:var(--serif);font-style:italic;font-size:16px;color:var(--green);margin:2px 0 8px}
+ul.points{margin:8px 0 0;padding-left:0;list-style:none}
+ul.points li{position:relative;padding-left:20px;margin-bottom:9px;font-size:14.5px}
+ul.points li:before{content:"";position:absolute;left:4px;top:8px;width:7px;height:7px;border-radius:2px;background:var(--brass-soft);transform:rotate(45deg)}
+.ex{border-left:3px solid var(--brass);background:var(--panel);border-radius:0 10px 10px 0;padding:12px 14px;margin-top:12px}
+.ex .lbl{font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--green);font-weight:600;margin-bottom:4px}
+.ex p{margin:0 0 10px;font-size:14.5px}
+label.check{display:flex;gap:10px;align-items:flex-start;font-size:14px;cursor:pointer;user-select:none;padding:8px 0}
+label.check input{appearance:none;-webkit-appearance:none;width:22px;height:22px;flex:0 0 22px;border:1.6px solid var(--brass-soft);border-radius:6px;background:#fff;position:relative;margin:1px 0 0;cursor:pointer}
+label.check input:checked{background:var(--green);border-color:var(--green)}
+label.check input:checked:after{content:"";position:absolute;left:7px;top:3px;width:5px;height:10px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(45deg)}
+textarea.notes{width:100%;border:1px solid var(--line);border-radius:10px;background:#fff;font-family:var(--sans);font-size:13.5px;padding:9px 11px;color:var(--ink);resize:vertical;min-height:52px;margin-top:4px}
+.btn{display:inline-block;border:0;border-radius:10px;background:var(--green);color:#f3efe2;font-family:var(--sans);font-size:13px;font-weight:600;padding:10px 16px;cursor:pointer}
+.btn.ghost{background:transparent;color:var(--green);border:1px solid var(--brass-soft)}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px;text-align:center}
+.stat .n{font-family:var(--serif);font-size:24px;color:var(--green);line-height:1}
+.stat .l{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-top:4px}
+.flash{display:block;perspective:1000px;cursor:pointer;margin-bottom:10px}
+.flash > input{position:absolute;left:-9999px}
+.flash .inner{position:relative;display:block;transition:transform .5s;transform-style:preserve-3d;min-height:118px}
+.flash > input:checked ~ .inner{transform:rotateY(180deg)}
+.flash .face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border:1px solid var(--line);border-radius:14px;padding:16px;background:var(--card);display:flex;flex-direction:column;justify-content:center}
+.flash .front{font-family:var(--serif);font-size:18px;color:var(--green-deep);text-align:center}
+.flash .front .hint{font-family:var(--sans);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--brass);margin-top:8px}
+.flash .back{transform:rotateY(180deg);font-size:13.5px;background:var(--panel)}
+.muted{color:var(--muted)}
+nav.tabs{position:fixed;left:0;right:0;bottom:0;z-index:30;display:flex;justify-content:center;pointer-events:none}
+nav.tabs .bar{pointer-events:auto;display:flex;width:100%;max-width:560px;background:var(--card);border-top:1px solid var(--line);padding:6px 4px calc(6px + env(safe-area-inset-bottom))}
+nav.tabs label{flex:1;text-align:center;color:var(--muted);font-size:10.5px;letter-spacing:.04em;padding:5px 0;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer}
+nav.tabs label svg{width:22px;height:22px}
+#tab-home:checked ~ nav.tabs label[for=tab-home],
+#tab-ideas:checked ~ nav.tabs label[for=tab-ideas],
+#tab-practice:checked ~ nav.tabs label[for=tab-practice],
+#tab-cards:checked ~ nav.tabs label[for=tab-cards]{color:var(--green)}
+.divider{height:1px;background:var(--line);margin:14px 0}
+.footnote{font-size:11.5px;color:var(--muted);margin:18px 2px 0;text-align:center}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="top">
+    <svg class="em" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <circle cx="100" cy="100" r="94" fill="none" stroke="currentColor" stroke-width="5" opacity=".7"/>
+      <path d="M44 132 L84 92 L112 120 L158 66" fill="none" stroke="currentColor" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="158" cy="66" r="16" fill="currentColor"/>
+    </svg>
+    <div><h1>The Unstoppable Mind</h1><div class="sub">Companion &middot; points &amp; practice</div></div>
+  </header>
+  <form id="app">
+    <input class="tabin" type="radio" name="tab" id="tab-home" checked>
+    <input class="tabin" type="radio" name="tab" id="tab-ideas">
+    <input class="tabin" type="radio" name="tab" id="tab-practice">
+    <input class="tabin" type="radio" name="tab" id="tab-cards">
+    <main>
+      <section class="view" id="v-home">
+    <h2 class="view-title">The Unstoppable Mind</h2>
+    <p class="lede">The book's five ideas, the moves that go with them, and a week to put them to work.</p>
+    <div class="card">
+      <span class="pill brass">The one claim</span>
+      <p class="idea" style="margin-top:10px">You will not think your way into a different life. You will build it out of small, repeated moves, made before you feel ready, inside a room you have deliberately rearranged.</p>
+    </div>
+    <label class="card tap" for="tab-ideas">
+      <div class="row spread"><div><div class="ch-num">Start here</div><div class="ch-title" style="font-size:16px">The five ideas</div></div><div class="chev">&#8250;</div></div>
+    </label>
+    <label class="card tap" for="tab-practice">
+      <div class="row spread"><div><div class="ch-num">Put it to work</div><div class="ch-title" style="font-size:16px">Exercises &amp; the 7-day challenge</div></div><div class="chev">&#8250;</div></div>
+    </label>
+    <label class="card tap" for="tab-cards">
+      <div class="row spread"><div><div class="ch-num">Remember it</div><div class="ch-title" style="font-size:16px">Flashcards &amp; toolkit</div></div><div class="chev">&#8250;</div></div>
+    </label>
+    <div class="grid" style="margin-top:4px">
+      <div class="stat"><div class="n">5</div><div class="l">Big ideas</div></div>
+      <div class="stat"><div class="n">9</div><div class="l">Toolkit moves</div></div>
+      <div class="stat"><div class="n">12</div><div class="l">Flashcards</div></div>
+      <div class="stat"><div class="n">7</div><div class="l">Day challenge</div></div>
+    </div>
+    <p class="footnote">A companion to <em>The Unstoppable Mind</em> by Dr. Sohil Momin.<br>Works offline. Your ticks stay on this device.</p></section>
+      <section class="view" id="v-ideas"><h2 class="view-title">The five ideas</h2><p class="lede">Each chapter, its key points, and the one move that goes with it.</p>
+    <div class="card">
+      <div class="ch-num">Chapter One</div>
+      <h3 class="ch-title">The Trap of Habituation</h3>
+      <p class="idea">Life does not get boring. Your attention does.</p>
+      <span class="pill">Key points</span>
+      <ul class="points"><li>Habituation is a drop in your response to anything constant. The sense organ did not fail; the brain stopped paying for what never changes.</li><li>The cold pool, the bakery smell, the hum of a fridge: all were still there, all had stopped registering.</li><li>The happiness curve dips in mid-life across many countries. It is a measured pattern, and its cause is not settled — so treat the tidy explanation with care.</li><li>Belief changes the body. Hotel housekeepers told their work was exercise improved weight and blood pressure; the same milkshake labelled &#x27;indulgent&#x27; lowered the hunger hormone more than when labelled &#x27;sensible&#x27;.</li><li>Dishabituation resets the response: remove the constant, then return, and you feel it again.</li><li>The hedonic treadmill: we adapt to wins and losses and drift back to a baseline, so variety has to be aimed, not chased.</li></ul>
+      <div class="ex">
+        <div class="lbl">Your one move</div>
+        <p>Pick one thing you have stopped noticing, and change exactly one thing about how you meet it this week. A different route, a different hour, a different order. Then notice what comes back.</p>
+        <label class="check"><input type="checkbox" name="ex0"> <span>I have done this</span></label>
+        <textarea class="notes" name="note0" placeholder="Notes, what you noticed, what happened..."></textarea>
+      </div>
+    </div>
+    <div class="card">
+      <div class="ch-num">Chapter Two</div>
+      <h3 class="ch-title">The Ant and the Elephant</h3>
+      <p class="idea">You are two minds, and the larger one does not take instructions.</p>
+      <span class="pill">Key points</span>
+      <ul class="points"><li>The ant is the small, deliberate mind; the elephant is the large, automatic one. The ant writes the plan; the elephant decides where to walk.</li><li>Willpower is a finite resource and loses to a pattern that runs without effort.</li><li>Much of your behaviour is triggered by context, not intention. Change the room, not your resolve.</li><li>Four inputs to audit: the room, the people, the feed, your words.</li><li>Conformity is the default — in Asch&#x27;s line experiments, people gave obviously wrong answers to match the group. The group sets the elephant&#x27;s default.</li><li>Bad is stronger than good: threats grab attention faster than delights, which is why a feed built to hold you shows you what frightens you.</li><li>The habit loop is cue, routine, reward. Keep the cue and the reward, and swap the routine in the middle.</li></ul>
+      <div class="ex">
+        <div class="lbl">Your one move</div>
+        <p>Audit one input today. Choose the room, the people, the feed or the words, and change one thing about it, not by will but by design.</p>
+        <label class="check"><input type="checkbox" name="ex1"> <span>I have done this</span></label>
+        <textarea class="notes" name="note1" placeholder="Notes, what you noticed, what happened..."></textarea>
+      </div>
+    </div>
+    <div class="card">
+      <div class="ch-num">Chapter Three</div>
+      <h3 class="ch-title">The Action of Confidence</h3>
+      <p class="idea">Confidence follows action. It does not come before it.</p>
+      <span class="pill">Key points</span>
+      <ul class="points"><li>Nate Zinsser defines confidence as a sense of certainty about an ability that lets you execute without deliberating.</li><li>It is specific, not general, and it is built, not granted. You can be certain about one skill and unsure about the next.</li><li>The loop runs one way: try, learn, get competent, feel certain. Waiting to feel confident skips the loop that produces it.</li><li>Feeling like an imposter is evidence you are learning, not that you do not belong.</li><li>The five-second move: count 5-4-3-2-1 and move before the objections assemble. It is a method, not a law.</li><li>Add &#x27;yet&#x27;. &#x27;I can&#x27;t&#x27; becomes &#x27;I can&#x27;t yet&#x27;. Turn impossible demands into ordinary preferences.</li><li>Keep a confidence account: record one effort, one thing you got right, and one sign of progress.</li></ul>
+      <div class="ex">
+        <div class="lbl">Your one move</div>
+        <p>Choose one thing you have been waiting to feel ready for. Count backwards from five and do the smallest possible version of it today. Then write down one thing you learned.</p>
+        <label class="check"><input type="checkbox" name="ex2"> <span>I have done this</span></label>
+        <textarea class="notes" name="note2" placeholder="Notes, what you noticed, what happened..."></textarea>
+      </div>
+    </div>
+    <div class="card">
+      <div class="ch-num">Chapter Four</div>
+      <h3 class="ch-title">The Lion and the Fox</h3>
+      <p class="idea">People are emotional creatures, not spreadsheets.</p>
+      <span class="pill">Key points</span>
+      <ul class="points"><li>Facts reassure the ant; emotion moves the elephant. Airtight logic often loses a room to a feeling.</li><li>Machiavelli: be a fox to recognise the snares, and a lion to frighten the wolves. Neither alone is enough.</li><li>Over-fox is clever and untrusted. Over-lion is strong and brittle, and walks into the same trap twice.</li><li>Reputation is not popularity. Respect outlasts being liked.</li><li>The &#x27;nice guy&#x27; trades honesty for approval, and the trade is a slow leak of trust.</li><li>A boundary is a rule about what you will do, not a demand about what they must do. Set it once, calmly, and keep it.</li><li>Negotiate interests, not positions: look past the stated demand to the thing underneath it.</li></ul>
+      <div class="ex">
+        <div class="lbl">Your one move</div>
+        <p>In your next difficult conversation, ask the fox&#x27;s question before you act. What is the trap here? Then decide, on purpose, whether the moment calls for the fox or the lion.</p>
+        <label class="check"><input type="checkbox" name="ex3"> <span>I have done this</span></label>
+        <textarea class="notes" name="note3" placeholder="Notes, what you noticed, what happened..."></textarea>
+      </div>
+    </div>
+    <div class="card">
+      <div class="ch-num">Chapter Five</div>
+      <h3 class="ch-title">Leadership and Self-Worth</h3>
+      <p class="idea">You cannot lead from a foundation you have not built in yourself.</p>
+      <span class="pill">Key points</span>
+      <ul class="points"><li>Three basic needs (Deci &amp; Ryan): competence, autonomy, relatedness. Meet them and people motivate themselves.</li><li>The tyranny of the should: impossible inner demands that never let you be ordinary. Turn one demand into a preference.</li><li>Lead by question, not by dump. &#x27;What&#x27;s your take on this?&#x27; creates buy-in instead of compliance.</li><li>The advice monster: the pull to answer before the other person has finished thinking. Wait one more question.</li><li>The three A&#x27;s of a mistake: acknowledge, apologise, act. Owning it builds respect rather than costing it.</li><li>Feedback lands when it is about behaviour, specific, and timely — never a verdict about the person.</li></ul>
+      <div class="ex">
+        <div class="lbl">Your one move</div>
+        <p>Pick one instruction you would normally deliver as an order, and turn it into a question instead. Then listen to the answer without defending your first idea.</p>
+        <label class="check"><input type="checkbox" name="ex4"> <span>I have done this</span></label>
+        <textarea class="notes" name="note4" placeholder="Notes, what you noticed, what happened..."></textarea>
+      </div>
+    </div></section>
+      <section class="view" id="v-practice">
+    <h2 class="view-title">Practice</h2>
+    <p class="lede">Tick each one as you do it. Everything stays on this device.</p>
+    <div class="card"><span class="pill brass">The 7-day challenge</span><div style="margin-top:8px"><label class="check"><input type="checkbox" name="day1"> <span><strong>Day 1.</strong> Change one route <span class="muted">&mdash; Break a pattern around something you have stopped noticing.</span></span></label><label class="check"><input type="checkbox" name="day2"> <span><strong>Day 2.</strong> Audit one input <span class="muted">&mdash; Room, people, feed, or words — change one by design, not will.</span></span></label><label class="check"><input type="checkbox" name="day3"> <span><strong>Day 3.</strong> Count from five <span class="muted">&mdash; Act on the thing you have been avoiding, before the count ends.</span></span></label><label class="check"><input type="checkbox" name="day4"> <span><strong>Day 4.</strong> Add &#x27;yet&#x27; <span class="muted">&mdash; Catch one &#x27;I can&#x27;t&#x27; and finish the sentence with &#x27;yet&#x27;.</span></span></label><label class="check"><input type="checkbox" name="day5"> <span><strong>Day 5.</strong> Ask, don&#x27;t instruct <span class="muted">&mdash; Turn one order into a question and listen without defending.</span></span></label><label class="check"><input type="checkbox" name="day6"> <span><strong>Day 6.</strong> Own a mistake <span class="muted">&mdash; Use the three A&#x27;s: acknowledge, apologise, act.</span></span></label><label class="check"><input type="checkbox" name="day7"> <span><strong>Day 7.</strong> Make a deposit <span class="muted">&mdash; Write one effort, one success, one sign of progress.</span></span></label></div></div>
+    <span class="pill">Chapter exercises</span>
+    <div style="margin-top:12px">
+      <div class="ex" style="margin:0 0 12px">
+        <div class="lbl">Chapter One &middot; The Trap of Habituation</div>
+        <p>Pick one thing you have stopped noticing, and change exactly one thing about how you meet it this week. A different route, a different hour, a different order. Then notice what comes back.</p>
+        <label class="check"><input type="checkbox" name="pex0"> <span>Done</span></label>
+        <textarea class="notes" name="pnote0" placeholder="Notes..."></textarea>
+      </div>
+      <div class="ex" style="margin:0 0 12px">
+        <div class="lbl">Chapter Two &middot; The Ant and the Elephant</div>
+        <p>Audit one input today. Choose the room, the people, the feed or the words, and change one thing about it, not by will but by design.</p>
+        <label class="check"><input type="checkbox" name="pex1"> <span>Done</span></label>
+        <textarea class="notes" name="pnote1" placeholder="Notes..."></textarea>
+      </div>
+      <div class="ex" style="margin:0 0 12px">
+        <div class="lbl">Chapter Three &middot; The Action of Confidence</div>
+        <p>Choose one thing you have been waiting to feel ready for. Count backwards from five and do the smallest possible version of it today. Then write down one thing you learned.</p>
+        <label class="check"><input type="checkbox" name="pex2"> <span>Done</span></label>
+        <textarea class="notes" name="pnote2" placeholder="Notes..."></textarea>
+      </div>
+      <div class="ex" style="margin:0 0 12px">
+        <div class="lbl">Chapter Four &middot; The Lion and the Fox</div>
+        <p>In your next difficult conversation, ask the fox&#x27;s question before you act. What is the trap here? Then decide, on purpose, whether the moment calls for the fox or the lion.</p>
+        <label class="check"><input type="checkbox" name="pex3"> <span>Done</span></label>
+        <textarea class="notes" name="pnote3" placeholder="Notes..."></textarea>
+      </div>
+      <div class="ex" style="margin:0 0 12px">
+        <div class="lbl">Chapter Five &middot; Leadership and Self-Worth</div>
+        <p>Pick one instruction you would normally deliver as an order, and turn it into a question instead. Then listen to the answer without defending your first idea.</p>
+        <label class="check"><input type="checkbox" name="pex4"> <span>Done</span></label>
+        <textarea class="notes" name="pnote4" placeholder="Notes..."></textarea>
+      </div></div>
+    <div class="divider"></div>
+    <button type="reset" class="btn ghost">Reset all ticks &amp; notes</button></section>
+      <section class="view" id="v-cards">
+    <h2 class="view-title">Flashcards</h2>
+    <p class="lede">The book's key terms. Tap a card to flip it.</p>
+    
+    <label class="flash">
+      <input type="checkbox">
+      <span class="inner">
+        <span class="face front">Habituation<span class="hint">Tap to reveal</span></span>
+        <span class="face back">A decrease in a behavioural response that results from repeated stimulation, and that is not caused by sensory adaptation or fatigue (Rankin et al., 2009).</span>
+      </span>
+    </label>
+    <label class="flash">
+      <input type="checkbox">
+      <span class="inner">
+        <span class="face front">Dishabituation<span class="hint">Tap to reveal</span></span>
+        <span class="face back">The return of a habituated response after the constant stimulus is removed or changed, so the nervous system notices it again.</span>
+      </span>
+    </label>
+    <label class="flash">
+      <input type="checkbox">
+      <span class="inner">
+        <span class="face front">The ant and the elephant<span class="hint">Tap to reveal</span></span>
+        <span class="face back">Poscente&#x27;s metaphor for the small, deliberate conscious mind (the ant) and the large, automatic unconscious mind (the elephant) it rides.</span>
+      </span>
+    </label>
+    <label class="flash">
+      <input type="checkbox">
+      <span class="inner">
+        <span class="face front">Confidence<span class="hint">Tap to reveal</span></span>
+        <span class="face back">Zinsser&#x27;s definition: a sense of certainty about an ability that lets you execute without deliberating. Specific to a skill, and built by practice.</span>
+      </span>
+    </label>
+    <label class="flash">
+      <input type="checkbox">
+      <span class="inner">
+        <span class="face front">Negativity bias<span class="hint">Tap to reveal</span></span>
+        <span class="face back">The tendency for negative events to carry more psychological weight than positive ones of similar size (Baumeister et al., 2001).</span>
+      </span>
+    </label>
+    <label class="flash">
+      <input type="checkbox">
+      <span class="inner">
+        <span class="face front">Ghrelin<span class="hint">Tap to reveal</span></span>
+        <span class="face back">A gut hormone that rises with hunger and falls after eating. Its response can be shaped by what a person believes about the food.</span>
+      </span>
+    </label>
+    <label class="flash">
+      <input type="checkbox">
+      <span class="inner">
+        <span class="face front">Competence, autonomy, relatedness<span class="hint">Tap to reveal</span></span>
+        <span class="face back">The three basic psychological needs in self-determination theory (Deci &amp; Ryan). Satisfied, they fuel motivation; thwarted, they drain it.</span>
+      </span>
+    </label>
+    <label class="flash">
+      <input type="checkbox">
+      <span class="inner">
+        <span class="face front">The tyranny of the should<span class="hint">Tap to reveal</span></span>
+        <span class="face back">Karen Horney&#x27;s term for the rule of impossible inner demands that hold a person to a perfect &#x27;should self&#x27;.</span>
+      </span>
+    </label>
+    <label class="flash">
+      <input type="checkbox">
+      <span class="inner">
+        <span class="face front">The three A&#x27;s<span class="hint">Tap to reveal</span></span>
+        <span class="face back">A shape for handling a mistake as a leader: acknowledge, apologise, act.</span>
+      </span>
+    </label>
+    <label class="flash">
+      <input type="checkbox">
+      <span class="inner">
+        <span class="face front">Hedonic treadmill<span class="hint">Tap to reveal</span></span>
+        <span class="face back">The tendency to adapt to good and bad events and drift back towards a baseline, so novelty alone does not raise happiness.</span>
+      </span>
+    </label>
+    <label class="flash">
+      <input type="checkbox">
+      <span class="inner">
+        <span class="face front">The habit loop<span class="hint">Tap to reveal</span></span>
+        <span class="face back">Cue, routine, reward. Keep the cue and the reward, and change the routine in the middle.</span>
+      </span>
+    </label>
+    <label class="flash">
+      <input type="checkbox">
+      <span class="inner">
+        <span class="face front">The fox and the lion<span class="hint">Tap to reveal</span></span>
+        <span class="face back">Machiavelli&#x27;s pair: the fox recognises traps, the lion frightens wolves. Influence needs both cunning and firmness.</span>
+      </span>
+    </label>
+    <div class="card" style="margin-top:6px"><span class="pill brass">Toolkit</span>
+      <ul class="points" style="margin-top:10px"><li><strong>The five-second move.</strong> Count 5-4-3-2-1 and physically move before hesitation wins. A starting gun for the ant.</li><li><strong>The if-then plan.</strong> Set the trigger in advance: &#x27;If it is 7am, then I put on my shoes.&#x27; Hand the decision to the situation, not to willpower.</li><li><strong>The dishabituation experiment.</strong> Pick one thing you&#x27;ve stopped noticing, change one detail of how you meet it, and feel its value return.</li><li><strong>The input audit.</strong> Once a week, check the four inputs: the room, the people, the feed, your words. Change one by design.</li><li><strong>The confidence log.</strong> Each evening, write one effort, one success, one sign of progress. You are depositing evidence, not mood.</li><li><strong>The fox&#x27;s question.</strong> Before you push or retreat, ask: what is the trap here? Then choose fox or lion on purpose.</li><li><strong>Ask, don&#x27;t dump.</strong> Replace one instruction with a question. &#x27;What would good look like here?&#x27;</li><li><strong>The three A&#x27;s.</strong> Acknowledge the mistake plainly, apologise once and briefly, act to stop the repeat.</li><li><strong>Should to preference.</strong> Change &#x27;I should be perfect&#x27; into &#x27;I would like to do this well, and I can accept adequate today.&#x27;</li></ul>
+    </div></section>
+    </main>
+    <nav class="tabs"><div class="bar">
+      <label for="tab-home"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 11.5 12 4l8 7.5V20a1 1 0 0 1-1 1h-4v-6H9v6H5a1 1 0 0 1-1-1z"/></svg><span>Home</span></label>
+      <label for="tab-ideas"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M5 3h9a3 3 0 0 1 3 3v15H8a3 3 0 0 1-3-3z" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M5 6h12" fill="none" stroke="currentColor" stroke-width="1.8"/></svg><span>Ideas</span></label>
+      <label for="tab-practice"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8 12.5l2.5 2.5L16 9.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Practice</span></label>
+      <label for="tab-cards"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="4" y="6" width="13" height="15" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8 3h11a1 1 0 0 1 1 1v13" fill="none" stroke="currentColor" stroke-width="1.8"/></svg><span>Cards</span></label>
+    </div></nav>
+  </form>
+</div>
+<script>
+/* Optional enhancement only. Everything above works with scripts blocked. */
+(function(){
+  try{
+    var KEY="unstoppable_companion_v2", f=document.getElementById("app");
+    var saved=JSON.parse(localStorage.getItem(KEY)||"{}");
+    f.querySelectorAll("input[type=checkbox][name]").forEach(function(el){
+      if(saved[el.name]) el.checked=true;
+    });
+    f.querySelectorAll("textarea[name]").forEach(function(el){
+      if(saved["t_"+el.name]) el.value=saved["t_"+el.name];
+    });
+    f.addEventListener("change",function(e){ var t=e.target;
+      if(t.matches("input[type=checkbox][name]")){ saved[t.name]=t.checked; }
+      try{ localStorage.setItem(KEY, JSON.stringify(saved)); }catch(x){}
+    });
+    f.addEventListener("input",function(e){ var t=e.target;
+      if(t.matches("textarea[name]")){ saved["t_"+t.name]=t.value;
+        try{ localStorage.setItem(KEY, JSON.stringify(saved)); }catch(x){} }
+    });
+    f.addEventListener("reset",function(){ saved={}; try{ localStorage.removeItem(KEY); }catch(x){} });
+  }catch(e){}
+})();
+</script>
+</body>
+</html>
