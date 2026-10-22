@@ -14,6 +14,8 @@
 
 **[Landing page](https://drsamonline.github.io/unstoppable-mind-companion/)** · **[Open the live app](https://drsamonline.github.io/unstoppable-mind-companion/play/)** · **[Repository](https://github.com/drsamonline/unstoppable-mind-companion)**
 
+**Download:** [Windows (.exe)](https://github.com/drsamonline/unstoppable-mind-companion/releases/latest/download/unstoppable-mind-companion-portable.exe) &nbsp;·&nbsp; [Android (.apk)](https://github.com/drsamonline/unstoppable-mind-companion/releases/latest/download/unstoppable-mind-companion.apk)
+
 </div>
 
 ---
