@@ -1,0 +1,20 @@
+name: Build portable EXE + Android APK
+
+# Drop this file into a consuming app repo as
+# .github/workflows/build-apps.yml (repo: unstoppable-mind-companion).
+#
+# APP_NAME  -> asset names: <APP_NAME>-portable.exe and <APP_NAME>.apk
+# APP_SRC   -> folder in the app repo that holds index.html (+ any assets)
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+env:
+  APP_NAME: unstoppable-mind-companion
+  APP_SRC: docs/play
+  KIT_REPO: drsamonline/app-builder
