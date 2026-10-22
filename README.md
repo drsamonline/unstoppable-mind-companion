@@ -8,9 +8,9 @@
 [![Open the live app](https://img.shields.io/badge/open-live%20app-ff4d00)](https://drsamonline.github.io/unstoppable-mind-companion/play/)
 [![GitHub stars](https://img.shields.io/github/stars/drsamonline/unstoppable-mind-companion)](https://github.com/drsamonline/unstoppable-mind-companion/stargazers)
 [![Licence: Free to Use](https://img.shields.io/badge/licence-free%20to%20use-ff4d00)](LICENSE)
-[![Works offline](https://img.shields.io/badge/works-offline-ff4d00)](
-[![JavaScript: none](https://img.shields.io/badge/javascript-none-ff4d00)](
-[![Single file: 30 KB](https://img.shields.io/badge/single%20file-30%20KB-ff4d00)](
+[![Works offline](https://img.shields.io/badge/works-offline-ff4d00)](https://drsamonline.github.io/unstoppable-mind-companion/)
+[![JavaScript: none](https://img.shields.io/badge/javascript-none-ff4d00)](https://drsamonline.github.io/unstoppable-mind-companion/)
+[![Single file: 30 KB](https://img.shields.io/badge/single%20file-30%20KB-ff4d00)](https://drsamonline.github.io/unstoppable-mind-companion/)
 
 **[Landing page](https://drsamonline.github.io/unstoppable-mind-companion/)** · **[Open the live app](https://drsamonline.github.io/unstoppable-mind-companion/play/)** · **[Repository](https://github.com/drsamonline/unstoppable-mind-companion)**
 
