@@ -325,12 +325,21 @@ nav.tabs label svg{width:22px;height:22px}
     </div></nav>
   </form>
 </div>
+<script src="web-kit.js"></script>
 <script>
-/* Optional enhancement only. Everything above works with scripts blocked. */
+/* Optional enhancement only. Everything above works with scripts blocked.
+   Persistence uses web-kit's Loom.storage (namespaced, JSON-safe) instead of
+   hand-rolled localStorage; answers saved before the retrofit (the legacy key
+   below) are migrated in once, so nothing is lost. */
 (function(){
   try{
-    var KEY="unstoppable_companion_v2", f=document.getElementById("app");
-    var saved=JSON.parse(localStorage.getItem(KEY)||"{}");
+    var LEGACY="unstoppable_companion_v2", f=document.getElementById("app");
+    var saved=Loom.storage.get("saved", null);
+    if(saved===null){
+      try{ saved=JSON.parse(localStorage.getItem(LEGACY)||"{}"); }catch(x){ saved={}; }
+      if(!saved||typeof saved!=="object") saved={};
+      Loom.storage.set("saved", saved);
+    }
     f.querySelectorAll("input[type=checkbox][name]").forEach(function(el){
       if(saved[el.name]) el.checked=true;
     });
@@ -339,13 +348,12 @@ nav.tabs label svg{width:22px;height:22px}
     });
     f.addEventListener("change",function(e){ var t=e.target;
       if(t.matches("input[type=checkbox][name]")){ saved[t.name]=t.checked; }
-      try{ localStorage.setItem(KEY, JSON.stringify(saved)); }catch(x){}
+      Loom.storage.set("saved", saved);
     });
     f.addEventListener("input",function(e){ var t=e.target;
-      if(t.matches("textarea[name]")){ saved["t_"+t.name]=t.value;
-        try{ localStorage.setItem(KEY, JSON.stringify(saved)); }catch(x){} }
+      if(t.matches("textarea[name]")){ saved["t_"+t.name]=t.value; Loom.storage.set("saved", saved); }
     });
-    f.addEventListener("reset",function(){ saved={}; try{ localStorage.removeItem(KEY); }catch(x){} });
+    f.addEventListener("reset",function(){ saved={}; Loom.storage.remove("saved"); try{ localStorage.removeItem(LEGACY); }catch(x){} });
   }catch(e){}
 })();
 </script>
