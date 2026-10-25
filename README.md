@@ -2,6 +2,12 @@
 
 # The Unstoppable Mind — Companion App
 
+<!-- shot:start -->
+
+![Screenshot](docs/shot.png)
+
+<!-- shot:end -->
+
 **The book's key points and its exercises, in a form you can carry on your phone.**
 
 [![Landing page](https://img.shields.io/badge/landing-page-0a0a0a)](https://drsamonline.github.io/unstoppable-mind-companion/)
