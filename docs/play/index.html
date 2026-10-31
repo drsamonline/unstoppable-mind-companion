@@ -401,5 +401,21 @@ window.addEventListener("error", function () { window.__bootError = true; });
     setTimeout(function () { URL.revokeObjectURL(a.href); }, 1000);
   });
 })();
-</script></body>
+</script><style id="app-theme">
+  /* unstoppable-mind-companion - its own palette, type and shape.
+     Keyed on data-theme so the in-app theme toggle still works; !important is
+     required because web-kit sets these as inline styles on <html>. */
+  html[data-theme="dark"]{--bg:#110b0a !important;--card:#1e110a !important;--ink:#faf3ee !important;--mut:#9d765f !important;--line:#2f180a !important;--acc:#c9834e !important;}
+  html[data-theme="light"]{--bg:#fcf7f4 !important;--card:#ffffff !important;--ink:#1f1714 !important;--mut:#95592e !important;--line:#f4e7dd !important;--acc:#944407 !important;}
+  html,body{font-family:ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif !important;letter-spacing:-.01em !important;
+    background-image:radial-gradient(820px 360px at 50% -170px,
+      color-mix(in srgb, var(--acc) 16%, transparent), transparent 72%) !important;
+    background-repeat:no-repeat !important;background-attachment:fixed !important}
+  button,input,textarea,select{font-family:ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif !important}
+  button,.btn{border-radius:16px !important}
+  input,textarea,select{border-radius:14px !important}
+  .card,[class*="card"]{border-radius:18px !important}
+  button:not(.ghost):not(.tab){background:var(--acc) !important}
+</style>
+</body>
 </html>
